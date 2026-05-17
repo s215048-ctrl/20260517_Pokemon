@@ -10,7 +10,7 @@ export default function Home() {
           素早さ比較 / 種族値・努力値計算 / 第9世代準拠ダメージ計算
         </p>
         <p className="text-xs text-neutral-500 mt-2">
-          対応ポケモン: {UNIQUE_ROSTER.length} 体（メガシンカ・リージョン含む）
+          対応ポケモン: {UNIQUE_ROSTER.length} 体（通常・メガシンカ・リージョンフォーム含む）
         </p>
       </section>
 

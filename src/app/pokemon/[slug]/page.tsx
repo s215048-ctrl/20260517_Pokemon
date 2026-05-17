@@ -7,6 +7,7 @@ import { findRosterEntry } from "@/data/roster";
 import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species, spriteURL } from "@/lib/pokeapi";
 import { TypeBadge } from "@/components/TypeBadge";
 import { junsokuSpeed, saisokuSpeed, unInvestedSpeed } from "@/lib/stats";
+import { abilityJa, moveJa } from "@/data/locale";
 
 export default function PokemonDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -99,8 +100,8 @@ export default function PokemonDetailPage() {
             <div className="text-xs text-neutral-500">特性</div>
             <div className="text-sm">
               {pokemon.abilities.map((a) => (
-                <span key={a.ability.name} className="mr-2">
-                  {a.ability.name}
+                <span key={a.ability.name} className="mr-2" title={a.ability.name}>
+                  {abilityJa(a.ability.name)}
                   {a.is_hidden ? " (夢)" : ""}
                 </span>
               ))}
@@ -163,8 +164,8 @@ export default function PokemonDetailPage() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1 text-sm">
           {pokemon.moves.map((m) => (
-            <div key={m.move.name} className="px-2 py-1 bg-neutral-50 dark:bg-neutral-800 rounded text-xs">
-              {m.move.name}
+            <div key={m.move.name} className="px-2 py-1 bg-neutral-50 dark:bg-neutral-800 rounded text-xs" title={m.move.name}>
+              {moveJa(m.move.name)}
             </div>
           ))}
         </div>

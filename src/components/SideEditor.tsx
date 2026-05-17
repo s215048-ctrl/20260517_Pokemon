@@ -9,6 +9,7 @@ import { NATURES, natureById, StatKey } from "@/data/natures";
 import { calcStat } from "@/lib/stats";
 import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
 import { SideInput } from "@/lib/damage";
+import { abilityJa, itemJa } from "@/data/locale";
 
 export interface SideState {
   slug: string | null;
@@ -297,14 +298,14 @@ export function SideEditor({ label, state, onChange, onLoaded }: Props) {
               >
                 {pokemon.abilities.map((a, idx) => (
                   <option key={idx} value={`__idx${idx}`}>
-                    {a.ability.name}
+                    {abilityJa(a.ability.name)}
                     {a.is_hidden ? " (夢)" : ""}
                   </option>
                 ))}
                 <option disabled>──手動指定──</option>
                 {ABILITY_PRESETS.map((a) => (
                   <option key={`o-${a}`} value={a}>
-                    {a || "(なし)"}
+                    {a ? abilityJa(a) : "(なし)"}
                   </option>
                 ))}
               </select>
@@ -318,7 +319,7 @@ export function SideEditor({ label, state, onChange, onLoaded }: Props) {
               >
                 {ITEM_PRESETS.map((i) => (
                   <option key={i} value={i}>
-                    {i || "(なし)"}
+                    {i ? itemJa(i) : "(なし)"}
                   </option>
                 ))}
               </select>

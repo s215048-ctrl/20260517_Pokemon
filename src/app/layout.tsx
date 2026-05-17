@@ -36,8 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6">{children}</main>
         <footer className="border-t mt-6 py-4 text-xs text-center text-neutral-500 dark:text-neutral-400">
           データ提供: <a href="https://pokeapi.co/" className="underline" target="_blank" rel="noreferrer">PokeAPI</a>
-          ・ロスターは2026年5月時点の公開情報に基づくおおよその構成。
-          src/data/roster.ts を編集することで自由に追加・削除可能です。
+          ・ロスターデータ: <a href="https://github.com/otterlyclueless/pokemon-champions-data" className="underline" target="_blank" rel="noreferrer">otterlyclueless/pokemon-champions-data</a>
+          ・日本語名: PokeAPI CSVデータ。src/data/roster.ts を編集することで自由に追加・削除可能です。
         </footer>
       </body>
     </html>

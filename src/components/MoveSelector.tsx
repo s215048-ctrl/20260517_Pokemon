@@ -5,6 +5,7 @@ import { getMove, Move, moveJaName, Pokemon } from "@/lib/pokeapi";
 import { TypeBadge } from "./TypeBadge";
 import { MoveInput } from "@/lib/damage";
 import { PokeType } from "@/data/types";
+import { moveJa } from "@/data/locale";
 
 interface Props {
   pokemon: Pokemon | null;
@@ -34,7 +35,7 @@ export function MoveSelector({ pokemon, value, onChange, onLoaded }: Props) {
   const filteredChoices = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return choices;
-    return choices.filter((n) => n.includes(q));
+    return choices.filter((n) => n.includes(q) || moveJa(n).includes(query.trim()));
   }, [choices, query]);
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export function MoveSelector({ pokemon, value, onChange, onLoaded }: Props) {
         setMove(m);
         onLoaded({
           name: m.name,
-          ja: moveJaName(m),
+          ja: moveJa(m.name) || moveJaName(m),
           type: m.type.name as PokeType,
           category: m.damage_class.name as "physical" | "special" | "status",
           power: m.power ?? 0,
@@ -73,7 +74,7 @@ export function MoveSelector({ pokemon, value, onChange, onLoaded }: Props) {
     <div className="space-y-2">
       <input
         type="text"
-        placeholder="技名で絞り込み (英語slug)"
+        placeholder="技名で絞り込み (例: かえんほうしゃ / flamethrower)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="w-full p-1 text-sm border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700"
@@ -87,13 +88,13 @@ export function MoveSelector({ pokemon, value, onChange, onLoaded }: Props) {
         <option value="">技を選択…</option>
         {filteredChoices.map((n) => (
           <option key={n} value={n}>
-            {n}
+            {moveJa(n)}
           </option>
         ))}
       </select>
       {move && (
         <div className="bg-neutral-50 dark:bg-neutral-800 p-2 rounded text-sm space-y-1">
-          <div className="font-bold">{moveJaName(move)} ({move.name})</div>
+          <div className="font-bold">{moveJa(move.name) || moveJaName(move)} ({move.name})</div>
           <div className="flex gap-2 items-center">
             <TypeBadge type={move.type.name as PokeType} />
             <span>分類: {CATEGORY_JA[move.damage_class.name] ?? move.damage_class.name}</span>
