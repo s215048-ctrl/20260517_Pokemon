@@ -3,21 +3,18 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { UNIQUE_ROSTER } from "@/data/roster";
+import { searchSort } from "@/lib/jpsearch";
 
 export default function PokemonListPage() {
   const [query, setQuery] = useState("");
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return UNIQUE_ROSTER;
-    return UNIQUE_ROSTER.filter((e) => e.slug.toLowerCase().includes(q) || e.ja.includes(query));
-  }, [query]);
+  const filtered = useMemo(() => searchSort(UNIQUE_ROSTER, query), [query]);
 
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">ポケモン一覧</h1>
       <input
         type="text"
-        placeholder="ポケモン名で検索 (例: リザードン, charizard)"
+        placeholder="ポケモン名で検索 (例: め, リザ, charizard)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         className="w-full p-2 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700"

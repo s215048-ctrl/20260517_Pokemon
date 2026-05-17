@@ -5,6 +5,7 @@ import Link from "next/link";
 import { UNIQUE_ROSTER } from "@/data/roster";
 import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
 import { junsokuSpeed, saisokuSpeed, unInvestedSpeed } from "@/lib/stats";
+import { searchSort } from "@/lib/jpsearch";
 
 interface Row {
   slug: string;
@@ -96,10 +97,9 @@ export default function SpeedTablePage() {
   }, [level]);
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    let list = rows;
-    if (q) {
-      list = list.filter((r) => r.slug.toLowerCase().includes(q) || r.ja.includes(query));
+    let list: Row[] = rows;
+    if (query.trim()) {
+      list = searchSort(rows, query);
     }
     const dir = sortDir === "desc" ? -1 : 1;
     return [...list].sort((a, b) => {
@@ -146,7 +146,7 @@ export default function SpeedTablePage() {
         </label>
         <input
           type="text"
-          placeholder="検索"
+          placeholder="検索 (例: め で メ始まりを抽出)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="p-1 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700 text-sm flex-1 min-w-[200px]"

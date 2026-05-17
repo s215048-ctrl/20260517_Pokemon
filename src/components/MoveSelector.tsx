@@ -6,6 +6,7 @@ import { TypeBadge } from "./TypeBadge";
 import { MoveInput } from "@/lib/damage";
 import { PokeType } from "@/data/types";
 import { moveJa } from "@/data/locale";
+import { normalize } from "@/lib/jpsearch";
 
 interface Props {
   pokemon: Pokemon | null;
@@ -33,9 +34,21 @@ export function MoveSelector({ pokemon, value, onChange, onLoaded }: Props) {
   }, [pokemon]);
 
   const filteredChoices = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = normalize(query.trim());
     if (!q) return choices;
-    return choices.filter((n) => n.includes(q) || moveJa(n).includes(query.trim()));
+    const scored: { name: string; score: number; idx: number }[] = [];
+    choices.forEach((n, idx) => {
+      const ja = normalize(moveJa(n));
+      const slug = n.toLowerCase();
+      let s = -1;
+      if (ja.startsWith(q)) s = 0;
+      else if (slug.startsWith(q)) s = 1;
+      else if (ja.includes(q)) s = 2;
+      else if (slug.includes(q)) s = 3;
+      if (s >= 0) scored.push({ name: n, score: s, idx });
+    });
+    scored.sort((a, b) => a.score - b.score || a.idx - b.idx);
+    return scored.map((x) => x.name);
   }, [choices, query]);
 
   useEffect(() => {
