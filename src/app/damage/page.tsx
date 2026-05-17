@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { SideEditor, SideState, newSideState } from "@/components/SideEditor";
 import { MoveSelector } from "@/components/MoveSelector";
+import { DamageGauge } from "@/components/DamageGauge";
 import { Pokemon, Species } from "@/lib/pokeapi";
 import { calculateDamage, DamageOptions, MoveInput, SideInput, Terrain, Weather } from "@/lib/damage";
 
@@ -116,8 +117,10 @@ export default function DamagePage() {
         </div>
       </div>
 
-      <div className="bg-gradient-to-br from-red-50 to-yellow-50 dark:from-red-950 dark:to-yellow-950 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
-        <h2 className="font-bold text-lg mb-3">計算結果</h2>
+      <div className="card p-5 relative overflow-hidden">
+        <div className="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-rose-500/10 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 -right-12 w-64 h-64 rounded-full bg-sky-500/10 blur-3xl pointer-events-none" />
+        <h2 className="font-display text-2xl mb-3 heading-glow inline-block">計算結果</h2>
         {!result ? (
           <div className="text-sm text-neutral-500">
             両側のポケモンと技を選択するとここに表示されます
@@ -127,29 +130,32 @@ export default function DamagePage() {
         ) : result.min === 0 && result.max === 0 ? (
           <div className="text-lg text-neutral-600">変化技 (ダメージなし)</div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4 relative">
             <div className="flex flex-wrap items-baseline gap-3">
-              <div className="text-3xl font-bold">
+              <div className="font-mono text-4xl font-bold">
                 {result.min} 〜 {result.max}
               </div>
-              <div className="text-lg">
+              <div className="text-lg text-neutral-700 dark:text-neutral-300">
                 ({result.minPct.toFixed(1)}% 〜 {result.maxPct.toFixed(1)}%)
               </div>
               {result.guaranteedOHKO && (
-                <span className="px-2 py-0.5 bg-red-600 text-white text-xs rounded font-bold">
+                <span className="px-2.5 py-1 bg-rose-600 text-white text-xs rounded-full font-bold shadow-lg shadow-rose-600/30">
                   確定1発
                 </span>
               )}
               {!result.guaranteedOHKO && result.possibleOHKO && (
-                <span className="px-2 py-0.5 bg-orange-500 text-white text-xs rounded font-bold">
+                <span className="px-2.5 py-1 bg-orange-500 text-white text-xs rounded-full font-bold shadow-lg shadow-orange-500/30">
                   乱数1発
                 </span>
               )}
             </div>
             {defenderLoaded && (
-              <div className="text-sm">
-                防御側HP: <span className="font-mono">{defenderLoaded.sideInput.stats.hp}</span>
-              </div>
+              <DamageGauge
+                defenderHp={defenderLoaded.sideInput.stats.hp}
+                minDamage={result.min}
+                maxDamage={result.max}
+                rolls={result.rolls}
+              />
             )}
             <div>
               <div className="text-xs text-neutral-500 mb-1">乱数 (16段階)</div>

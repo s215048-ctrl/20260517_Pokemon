@@ -6,6 +6,7 @@ import Link from "next/link";
 import { findRosterEntry } from "@/data/roster";
 import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species, spriteURL } from "@/lib/pokeapi";
 import { TypeBadge } from "@/components/TypeBadge";
+import { StatRadar } from "@/components/StatRadar";
 import { junsokuSpeed, saisokuSpeed, unInvestedSpeed } from "@/lib/stats";
 import { abilityJa, moveJa } from "@/data/locale";
 
@@ -79,15 +80,16 @@ export default function PokemonDetailPage() {
       <Link href="/pokemon" className="text-sm underline">
         ← 一覧へ
       </Link>
-      <div className="flex flex-wrap gap-4 items-start bg-white dark:bg-neutral-900 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
+      <div className="card flex flex-wrap gap-4 items-start p-4 relative overflow-hidden">
+        <div className="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-gradient-to-br from-rose-400/15 to-sky-400/15 blur-2xl pointer-events-none" />
         {sprite && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={sprite} alt={displayName} className="w-32 h-32 object-contain" />
+          <img src={sprite} alt={displayName} className="w-40 h-40 object-contain drop-shadow-xl" />
         )}
-        <div className="flex-1 min-w-[200px]">
-          <h1 className="text-2xl font-bold">
+        <div className="flex-1 min-w-[200px] relative">
+          <h1 className="font-display text-3xl">
             {displayName}{" "}
-            <span className="text-sm text-neutral-500">
+            <span className="text-sm text-neutral-500 font-sans">
               #{pokemon.id} ({pokemon.name})
             </span>
           </h1>
@@ -110,33 +112,36 @@ export default function PokemonDetailPage() {
         </div>
       </div>
 
-      <section className="bg-white dark:bg-neutral-900 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
-        <h2 className="font-bold mb-2">種族値</h2>
-        <table className="w-full text-sm">
-          <tbody>
-            {(["hp", "atk", "def", "spa", "spd", "spe"] as const).map((k) => (
-              <tr key={k} className="border-b border-neutral-100 dark:border-neutral-800">
-                <th className="text-left py-1 pr-2 font-normal w-20 text-neutral-500">
-                  {{ hp: "HP", atk: "攻撃", def: "防御", spa: "特攻", spd: "特防", spe: "素早さ" }[k]}
-                </th>
-                <td className="py-1 font-mono">{base[k]}</td>
-                <td className="py-1 w-full">
-                  <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded overflow-hidden">
-                    <div
-                      className="h-full bg-red-500"
-                      style={{ width: `${Math.min(100, (base[k] / 255) * 100)}%` }}
-                    />
-                  </div>
-                </td>
+      <section className="card p-4">
+        <h2 className="font-bold mb-3 heading-glow inline-block">種族値</h2>
+        <div className="grid md:grid-cols-2 gap-4 items-center">
+          <StatRadar stats={base} />
+          <table className="w-full text-sm">
+            <tbody>
+              {(["hp", "atk", "def", "spa", "spd", "spe"] as const).map((k) => (
+                <tr key={k} className="border-b border-neutral-100 dark:border-neutral-800">
+                  <th className="text-left py-1 pr-2 font-normal w-20 text-neutral-500">
+                    {{ hp: "HP", atk: "攻撃", def: "防御", spa: "特攻", spd: "特防", spe: "素早さ" }[k]}
+                  </th>
+                  <td className="py-1 font-mono font-bold">{base[k]}</td>
+                  <td className="py-1 w-full">
+                    <div className="h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-rose-500 to-sky-500"
+                        style={{ width: `${Math.min(100, (base[k] / 255) * 100)}%` }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              <tr>
+                <th className="text-left py-1 pr-2 font-normal w-20 text-neutral-500">合計</th>
+                <td className="py-1 font-mono font-bold">{Object.values(base).reduce((a, b) => a + b, 0)}</td>
+                <td />
               </tr>
-            ))}
-            <tr>
-              <th className="text-left py-1 pr-2 font-normal w-20 text-neutral-500">合計</th>
-              <td className="py-1 font-mono">{Object.values(base).reduce((a, b) => a + b, 0)}</td>
-              <td />
-            </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section className="bg-white dark:bg-neutral-900 p-4 rounded-lg border border-neutral-200 dark:border-neutral-800">
