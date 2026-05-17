@@ -12,6 +12,7 @@ interface Row {
   baseSpe: number;
   uninvest: number;
   junsoku: number;
+  junsokuScarf: number;
   saisoku: number;
   saisokuScarf: number;
 }
@@ -29,13 +30,15 @@ async function loadRow(slug: string, ja: string, level: number): Promise<Row | n
       // ignore species fetch failure
     }
     const baseSpe = pickStat(p, "speed");
+    const junsoku = junsokuSpeed(baseSpe, level);
     const saisoku = saisokuSpeed(baseSpe, level);
     return {
       slug,
       ja: displayName,
       baseSpe,
       uninvest: unInvestedSpeed(baseSpe, level),
-      junsoku: junsokuSpeed(baseSpe, level),
+      junsoku,
+      junsokuScarf: Math.floor(junsoku * 1.5),
       saisoku,
       saisokuScarf: Math.floor(saisoku * 1.5),
     };
@@ -163,6 +166,7 @@ export default function SpeedTablePage() {
               {header("baseSpe", "種族値")}
               {header("uninvest", "無振り")}
               {header("junsoku", "準速")}
+              {header("junsokuScarf", "準速スカーフ")}
               {header("saisoku", "最速")}
               {header("saisokuScarf", "最速スカーフ")}
             </tr>
@@ -179,6 +183,7 @@ export default function SpeedTablePage() {
                 <td className="p-1 text-right font-mono">{r.baseSpe}</td>
                 <td className="p-1 text-right font-mono">{r.uninvest}</td>
                 <td className="p-1 text-right font-mono">{r.junsoku}</td>
+                <td className="p-1 text-right font-mono text-orange-600">{r.junsokuScarf}</td>
                 <td className="p-1 text-right font-mono font-bold">{r.saisoku}</td>
                 <td className="p-1 text-right font-mono text-red-600">{r.saisokuScarf}</td>
               </tr>
