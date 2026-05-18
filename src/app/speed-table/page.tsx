@@ -145,11 +145,16 @@ export default function SpeedTablePage() {
           />
         </label>
         <input
-          type="text"
+          type="search"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
           placeholder="検索 (例: め で メ始まりを抽出)"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="p-1 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700 text-sm flex-1 min-w-[200px]"
+          className="p-2 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700 flex-1 min-w-[200px]"
+          style={{ fontSize: "16px" }}
         />
         <span className="text-xs text-neutral-500">
           {progress.done < progress.total
@@ -166,8 +171,8 @@ export default function SpeedTablePage() {
               {header("baseSpe", "種族値")}
               {header("uninvest", "無振り")}
               {header("junsoku", "準速")}
-              {header("junsokuScarf", "準速スカーフ")}
               {header("saisoku", "最速")}
+              {header("junsokuScarf", "準速スカーフ")}
               {header("saisokuScarf", "最速スカーフ")}
             </tr>
           </thead>
@@ -183,8 +188,8 @@ export default function SpeedTablePage() {
                 <td className="p-1 text-right font-mono">{r.baseSpe}</td>
                 <td className="p-1 text-right font-mono">{r.uninvest}</td>
                 <td className="p-1 text-right font-mono">{r.junsoku}</td>
-                <td className="p-1 text-right font-mono text-orange-600">{r.junsokuScarf}</td>
                 <td className="p-1 text-right font-mono font-bold">{r.saisoku}</td>
+                <td className="p-1 text-right font-mono text-orange-600">{r.junsokuScarf}</td>
                 <td className="p-1 text-right font-mono text-red-600">{r.saisokuScarf}</td>
               </tr>
             ))}

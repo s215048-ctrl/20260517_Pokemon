@@ -16,7 +16,7 @@ export default function Home() {
             Pokémon Champions Calculator
           </div>
           <h1 className="font-display text-4xl md:text-5xl leading-tight mb-3">
-            <span className="heading-glow">ポケチャン計算ツール</span>
+            <span className="heading-glow">ポケモンチャンピオンズ計算ツール</span>
           </h1>
           <p className="text-neutral-700 dark:text-neutral-200 text-base md:text-lg max-w-2xl">
             素早さ比較・種族値・第9世代準拠ダメージ計算を、ブラウザだけで完結。

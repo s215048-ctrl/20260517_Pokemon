@@ -14,11 +14,16 @@ export default function PokemonListPage() {
     <div className="space-y-4">
       <h1 className="text-2xl font-bold heading-glow inline-block">ポケモン一覧</h1>
       <input
-        type="text"
+        type="search"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
         placeholder="ポケモン名で検索 (例: め, リザ, charizard)"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="w-full p-2 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700"
+        className="w-full p-2.5 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700"
+        style={{ fontSize: "16px" }}
       />
       <div className="text-xs text-neutral-500">{filtered.length} / {UNIQUE_ROSTER.length} 体</div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">

@@ -24,7 +24,7 @@ const display = DotGothic16({
 });
 
 export const metadata: Metadata = {
-  title: "ポケモンチャンピオンズ 計算ツール",
+  title: "ポケモンチャンピオンズ計算ツール",
   description:
     "ポケモンチャンピオンズ対応の素早さ比較・ダメージ計算ツール。種族値、努力値振り、第9世代準拠のダメージ計算をブラウザだけで完結。",
 };
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <header className="sticky top-0 z-30 backdrop-blur-md bg-gradient-to-r from-rose-600/90 via-red-600/90 to-sky-600/90 text-white shadow-lg shadow-red-900/20 border-b border-white/10">
           <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/" className="font-display text-lg whitespace-nowrap tracking-wide drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
-              ポケチャン計算ツール
+              ポケモンチャンピオンズ計算ツール
             </Link>
             <NavTabs />
           </div>
