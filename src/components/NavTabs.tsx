@@ -5,9 +5,12 @@ import { usePathname } from "next/navigation";
 
 const TABS = [
   { href: "/speed", label: "素早さ比較" },
-  { href: "/speed-table", label: "素早さ一覧表" },
+  { href: "/speed-table", label: "素早さ表" },
   { href: "/damage", label: "ダメージ計算" },
-  { href: "/pokemon", label: "ポケモン一覧" },
+  { href: "/move-table", label: "技別ダメ表" },
+  { href: "/team", label: "チーム相性" },
+  { href: "/tuning", label: "調整サポート" },
+  { href: "/pokemon", label: "図鑑" },
 ];
 
 export function NavTabs() {

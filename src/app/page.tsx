@@ -51,9 +51,30 @@ export default function Home() {
         <FeatureCard
           href="/damage"
           title="ダメージ計算"
-          desc="第9世代準拠フル。テラスタル・天候・特性・持ち物対応"
+          desc="第9世代準拠フル。テラスタル・天候・特性・持ち物・残HP対応"
           accent="from-rose-500 to-red-700"
           icon="💥"
+        />
+        <FeatureCard
+          href="/move-table"
+          title="技別ダメ表"
+          desc="攻撃側の覚える全技を防御側1匹に対して一括計算"
+          accent="from-fuchsia-400 to-pink-600"
+          icon="🎯"
+        />
+        <FeatureCard
+          href="/team"
+          title="チーム相性"
+          desc="6匹のタイプ耐性をヒートマップで可視化。弱点重複を一目で"
+          accent="from-violet-400 to-indigo-600"
+          icon="🛡"
+        />
+        <FeatureCard
+          href="/tuning"
+          title="調整サポート"
+          desc="抜き調整と確定耐え調整。最小努力値を逆算"
+          accent="from-cyan-400 to-teal-600"
+          icon="🔧"
         />
         <FeatureCard
           href="/pokemon"

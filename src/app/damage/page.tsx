@@ -26,6 +26,7 @@ export default function DamagePage() {
   const [terrain, setTerrain] = useState<Terrain>("none");
   const [isCritical, setIsCritical] = useState(false);
   const [hpPercent, setHpPercent] = useState(100);
+  const [defenderHpPercent, setDefenderHpPercent] = useState(100);
 
   const result = useMemo(() => {
     if (!attackerLoaded || !defenderLoaded || !move) return null;
@@ -113,6 +114,18 @@ export default function DamagePage() {
               />
               <span className="text-xs text-neutral-500">もうか/げきりゅう等の判定用 (33%以下で発動)</span>
             </label>
+            <label className="flex flex-col col-span-2">
+              防御側 HP%
+              <input
+                type="number"
+                min={1}
+                max={100}
+                value={defenderHpPercent}
+                onChange={(e) => setDefenderHpPercent(Math.max(1, Math.min(100, parseInt(e.target.value) || 100)))}
+                className="p-1 border rounded bg-white dark:bg-neutral-900 dark:border-neutral-700"
+              />
+              <span className="text-xs text-neutral-500">残りHPに対するKO判定 (ゲージ表示と確率に反映)</span>
+            </label>
           </div>
         </div>
       </div>
@@ -152,6 +165,7 @@ export default function DamagePage() {
             {defenderLoaded && (
               <DamageGauge
                 defenderHp={defenderLoaded.sideInput.stats.hp}
+                currentHpPct={defenderHpPercent}
                 minDamage={result.min}
                 maxDamage={result.max}
                 rolls={result.rolls}
