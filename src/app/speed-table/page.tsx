@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { UNIQUE_ROSTER } from "@/data/roster";
-import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
+import { getPokemon, getSpecies, pokemonDisplayName, pickStat } from "@/lib/pokeapi";
 import { junsokuSpeed, saisokuSpeed, unInvestedSpeed } from "@/lib/stats";
 import { searchSort } from "@/lib/jpsearch";
 
@@ -26,7 +26,7 @@ async function loadRow(slug: string, ja: string, level: number): Promise<Row | n
     let displayName = ja;
     try {
       const sp = await getSpecies(p.species.url);
-      displayName = jaName(sp, ja);
+      displayName = pokemonDisplayName(slug, sp, ja);
     } catch {
       // ignore species fetch failure
     }

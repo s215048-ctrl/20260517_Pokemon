@@ -7,7 +7,7 @@ import { findRosterEntry } from "@/data/roster";
 import { POKE_TYPES, PokeType, TYPE_JA } from "@/data/types";
 import { NATURES, natureById, StatKey } from "@/data/natures";
 import { calcStat } from "@/lib/stats";
-import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
+import { getPokemon, getSpecies, pokemonDisplayName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
 import { SideInput } from "@/lib/damage";
 import { abilityJa, itemJa } from "@/data/locale";
 
@@ -157,7 +157,9 @@ export function SideEditor({ label, state, onChange, onLoaded }: Props) {
   }, [pokemon, species, stats, state.abilityIdx, state.abilityOverride, state.item, state.stages, state.isTera, state.teraType]);
 
   const entry = state.slug ? findRosterEntry(state.slug) : null;
-  const displayName = species ? jaName(species, entry?.ja ?? pokemon?.name ?? "") : entry?.ja ?? pokemon?.name ?? "";
+  const displayName = state.slug
+    ? pokemonDisplayName(state.slug, species, entry?.ja ?? pokemon?.name ?? "")
+    : entry?.ja ?? pokemon?.name ?? "";
 
   const totalEV = Object.values(state.evs).reduce((a, b) => a + b, 0);
 

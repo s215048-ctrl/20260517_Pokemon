@@ -6,7 +6,7 @@ import { TypeBadge } from "@/components/TypeBadge";
 import { findRosterEntry } from "@/data/roster";
 import { NATURES, natureById } from "@/data/natures";
 import { calcStat } from "@/lib/stats";
-import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
+import { getPokemon, getSpecies, pokemonDisplayName, pickStat, Pokemon, Species } from "@/lib/pokeapi";
 
 interface Slot {
   slug: string | null;
@@ -54,7 +54,7 @@ export default function SpeedComparePage() {
               pokemon: p,
               species: sp,
               baseSpe: pickStat(p, "speed"),
-              displayName: jaName(sp, entry?.ja ?? p.name),
+              displayName: pokemonDisplayName(slug, sp, entry?.ja ?? p.name),
             };
           } catch {
             // ignore

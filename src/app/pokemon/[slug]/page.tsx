@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { findRosterEntry } from "@/data/roster";
-import { getPokemon, getSpecies, jaName, pickStat, Pokemon, Species, spriteURL } from "@/lib/pokeapi";
+import { getPokemon, getSpecies, pokemonDisplayName, pickStat, Pokemon, Species, spriteURL } from "@/lib/pokeapi";
 import { TypeBadge } from "@/components/TypeBadge";
 import { StatRadar } from "@/components/StatRadar";
 import { junsokuSpeed, saisokuSpeed, unInvestedSpeed } from "@/lib/stats";
@@ -64,7 +64,7 @@ export default function PokemonDetailPage() {
     );
   }
 
-  const displayName = species ? jaName(species, entry?.ja ?? pokemon.name) : entry?.ja ?? pokemon.name;
+  const displayName = pokemonDisplayName(slug, species, entry?.ja ?? pokemon.name);
   const sprite = spriteURL(pokemon);
   const base = {
     hp: pickStat(pokemon, "hp"),

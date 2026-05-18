@@ -111,6 +111,34 @@ export function jaName(species: Species, fallback: string): string {
   return ja?.name ?? en?.name ?? fallback;
 }
 
+/**
+ * Build a display name that respects form modifiers in the slug.
+ *
+ * PokeAPI's species name is per-species (e.g. "エアームド" for skarmory),
+ * so the Mega / regional prefix is lost. This helper prepends/appends the
+ * form-specific Japanese marker based on the slug suffix.
+ */
+export function displayPokeName(slug: string, baseJa: string): string {
+  // Order matters: most specific first
+  if (slug.endsWith("-mega-x")) return `メガ${baseJa}X`;
+  if (slug.endsWith("-mega-y")) return `メガ${baseJa}Y`;
+  if (slug.endsWith("-mega")) return `メガ${baseJa}`;
+  if (slug.endsWith("-paldea-combat")) return `${baseJa}(パルデア・コンバット)`;
+  if (slug.endsWith("-paldea-blaze")) return `${baseJa}(パルデア・ブレイズ)`;
+  if (slug.endsWith("-paldea-aqua")) return `${baseJa}(パルデア・アクア)`;
+  if (slug.endsWith("-paldea")) return `${baseJa}(パルデア)`;
+  if (slug.endsWith("-alola")) return `${baseJa}(アローラ)`;
+  if (slug.endsWith("-galar")) return `${baseJa}(ガラル)`;
+  if (slug.endsWith("-hisui")) return `${baseJa}(ヒスイ)`;
+  return baseJa;
+}
+
+/** One-stop helper combining species lookup + form modifiers. */
+export function pokemonDisplayName(slug: string, species: Species | null, fallback: string): string {
+  const base = species ? jaName(species, fallback) : fallback;
+  return displayPokeName(slug, base);
+}
+
 // ---------- Move ----------
 
 export interface Move {
